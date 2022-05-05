@@ -1,45 +1,34 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { db } from './firebase.config';
+
+import { collection, doc, onSnapshot } from 'firebase/firestore';
+
+import Navbar from './components/Navbar';
+import Content from './components/Content';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [posts, setPosts] = useState([]);
+
+  const postsRef = collection(db, 'posts');
+
+  useEffect(() => {
+    onSnapshot(postsRef, (post) => {
+      setPosts(
+        post.docs.map((doc) => {
+          return {
+            ...doc.data(),
+          };
+        })
+      );
+    });
+  }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <Navbar />
+      <Content posts={posts} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

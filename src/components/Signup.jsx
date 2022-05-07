@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
-function Login() {
-  const [loginForm, setLoginForm] = useState({
+function Signup() {
+  const [SignUpForm, setSignUpForm] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
   });
 
   function onSubmit() {}
 
   function onChange(e) {
-    setLogoinForm((prev) => ({
+    setSignUpForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -17,7 +18,7 @@ function Login() {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Sign Up</h2>
       <form onSubmit={onSubmit}>
         <input required type="text" name="username" placeholder="Username" />
         <input
@@ -26,10 +27,16 @@ function Login() {
           name="password"
           placeholder="Password"
         />
+        <input
+          required
+          type="password"
+          name="confirmpassword"
+          placeholder="Confirm Password"
+        />
         <button type="submit">Log In</button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Signup;

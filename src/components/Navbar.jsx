@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
@@ -7,7 +8,7 @@ function Navbar() {
       <ul>
         <li>Posts</li>
         <li>Submit</li>
-        <li>Login</li>
+        <Link to="/login">Login</Link>
       </ul>
     </div>
   );

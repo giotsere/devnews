@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { auth } from '../firebase.config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 //TODO: error checking
 
@@ -10,15 +11,22 @@ function Login() {
     password: '',
   });
 
+  const navigate = useNavigate();
+
   const login = async () => {
     const loginEmail = loginForm.email;
     const loginPassword = loginForm.password;
 
-    const userCredentials = await signInWithEmailAndPassword(
-      auth,
-      loginEmail,
-      loginPassword
-    );
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      navigate('/');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   function onChange(e) {

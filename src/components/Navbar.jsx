@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase.config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 function Navbar() {
   const [userState, setUserState] = useState(null);
+  let navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -22,6 +23,14 @@ function Navbar() {
     });
   };
 
+  const redirect = () => {
+    if (userState) {
+      navigate('/submit');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <div className="flex justify-around mb-6 pt-2">
       <div className="flex">
@@ -33,12 +42,17 @@ function Navbar() {
             <li className="nav-margin font-size cursor-pointer">Posts</li>
           </Link>
 
-          <li className="nav-margin font-size cursor-pointer">Submit</li>
+          <li
+            className="nav-margin font-size cursor-pointer"
+            onClick={redirect}
+          >
+            Submit
+          </li>
         </ul>
       </div>
       <div>
         {userState ? (
-          <div onClick={logout} className="nav-margin">
+          <div onClick={logout} className="nav-margin font-size">
             Log Out
           </div>
         ) : (

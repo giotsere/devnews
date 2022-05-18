@@ -5,11 +5,11 @@ function Content({ posts }) {
     <div className="flex flex-col items-center mt-20">
       {posts.map((post) => {
         return (
-          <div className="flex flex-col w-72 mb-4">
+          <div className="mb-4 xl:w-7/12 w-10/12">
             <div className="flex w-full">
               <p className="content-title cursor-pointer">{post.title}</p>
               {post.url != '' ? (
-                <p className="secondery-colour  cursor-pointer">({post.url})</p>
+                <p className="secondery-colour cursor-pointer">({post.url})</p>
               ) : (
                 ''
               )}

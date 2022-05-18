@@ -21,6 +21,8 @@ function Navbar() {
     await signOut(auth).then(() => {
       console.log('user logged out');
     });
+
+    navigate('/');
   };
 
   const redirect = () => {
@@ -52,7 +54,7 @@ function Navbar() {
       </div>
       <div>
         {userState ? (
-          <div onClick={logout} className="nav-margin font-size">
+          <div onClick={logout} className="nav-margin font-size cursor-pointer">
             Log Out
           </div>
         ) : (

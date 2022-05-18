@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { auth } from '../firebase.config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 //TODO: error checking
 
 function Signup() {
   const [SignUpForm, setSignUpForm] = useState({
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -20,7 +21,15 @@ function Signup() {
           auth,
           signUpEmail,
           signUpPassword
-        );
+        ).then(() => {
+          try {
+            updateProfile(auth.currentUser, {
+              displayName: SignUpForm.name,
+            });
+          } catch (err) {
+            console.log(err);
+          }
+        });
       } catch (err) {
         console.log(err);
       }
@@ -37,6 +46,14 @@ function Signup() {
   return (
     <div className="form">
       <h2 className="bottom-margin form-title">Sign Up</h2>
+      <input
+        required
+        type="name"
+        name="name"
+        placeholder="Name"
+        onChange={onChange}
+        className="bottom-margin input-border"
+      />
       <input
         required
         type="email"

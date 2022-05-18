@@ -17,21 +17,36 @@ function Navbar() {
   }, []);
 
   const logout = async () => {
-    await signOut(auth);
+    await signOut(auth).then(() => {
+      console.log('user logged out');
+    });
   };
 
   return (
-    <div>
-      <h1>DevNews</h1>
-      <ul>
-        <li>Posts</li>
-        <li>Submit</li>
+    <div className="flex justify-around mb-6 pt-2">
+      <div className="flex">
+        <Link to="/" className="font-size">
+          <h1 className="content-title">DevNews</h1>
+        </Link>
+        <ul className="flex">
+          <Link to="/" className="font-size">
+            <li className="nav-margin font-size cursor-pointer">Posts</li>
+          </Link>
+
+          <li className="nav-margin font-size cursor-pointer">Submit</li>
+        </ul>
+      </div>
+      <div>
         {userState ? (
-          <li onClick={logout}>Log Out</li>
+          <div onClick={logout} className="nav-margin">
+            Log Out
+          </div>
         ) : (
-          <Link to="/login">Login</Link>
+          <Link to="/login" className="nav-margin font-size">
+            Login
+          </Link>
         )}
-      </ul>
+      </div>
     </div>
   );
 }

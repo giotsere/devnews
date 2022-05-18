@@ -35,14 +35,15 @@ function Signup() {
   }
 
   return (
-    <div>
-      <h2>Sign Up</h2>
+    <div className="form">
+      <h2 className="bottom-margin form-title">Sign Up</h2>
       <input
         required
         type="email"
         name="email"
         placeholder="Email"
         onChange={onChange}
+        className="bottom-margin input-border"
       />
       <input
         required
@@ -50,6 +51,7 @@ function Signup() {
         name="password"
         placeholder="Password"
         onChange={onChange}
+        className="bottom-margin input-border"
       />
       <input
         required
@@ -57,8 +59,11 @@ function Signup() {
         name="confirmPassword"
         placeholder="Confirm Password"
         onChange={onChange}
+        className="bottom-margin input-border"
       />
-      <button onClick={createAccount}>Sign Up</button>
+      <button onClick={createAccount} className="btn">
+        Sign Up
+      </button>
     </div>
   );
 }

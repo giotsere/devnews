@@ -37,14 +37,15 @@ function Login() {
   }
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="form">
+      <h2 className="bottom-margin form-title">Login</h2>
       <input
         required
         type="email"
         name="email"
         placeholder="Email"
         onChange={onChange}
+        className="bottom-margin input-border"
       />
       <input
         required
@@ -52,8 +53,11 @@ function Login() {
         name="password"
         placeholder="Password"
         onChange={onChange}
+        className="bottom-margin input-border"
       />
-      <button onClick={login}>Log In</button>
+      <button onClick={login} className="btn">
+        Log In
+      </button>
     </div>
   );
 }

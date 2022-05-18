@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .nav-margin {
+    @apply ml-6;
+  }
+
+  .p-margin {
+    @apply ml-2;
+  }
+
+  .bottom-margin {
+    @apply mb-6;
+  }
+  .content-title {
+    @apply mr-2 font-bold text-sky-800;
+  }
+
+  .form-title {
+    @apply mr-2 font-bold text-sky-800 text-xl text-center;
+  }
+
+  .secondery-colour {
+    @apply text-gray-500;
+  }
+
+  .user-colour {
+    @apply text-sky-500;
+  }
+
+  .font-size {
+    @apply font-semibold;
+  }
+
+  .form {
+    @apply flex flex-col w-72 mt-20;
+  }
+
+  .btn {
+    @apply rounded bg-sky-600 text-white font-bold p-2;
+  }
+
+  .input-border {
+    @apply border-2 rounded border-sky-800 p-1;
+  }
+}

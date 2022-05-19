@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
+import {
+  doc,
+  collection,
+  addDoc,
+  updateDoc,
+  arrayUnion,
+} from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -36,6 +42,11 @@ function Submit() {
             comments: 0,
             likes: 0,
             replies: [],
+          }).then(async (docRef) => {
+            const usersRef = doc(db, 'users', user.uid);
+            await updateDoc(usersRef, {
+              posts: arrayUnion(docRef.id),
+            });
           });
 
           setPost({

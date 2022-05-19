@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth, db } from '../firebase.config';
-import { addDoc, collection } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 //TODO: error checking
 
@@ -34,14 +34,17 @@ function Signup() {
           })
           .then(async () => {
             try {
-              const docRef = await addDoc(collection(db, 'users'), {
-                displayName: SignUpForm.name,
-                email: SignUpForm.email,
-                uid: auth.currentUser.uid,
-                posts: [],
-                comments: [],
-                createdAt: new Date(),
-              });
+              const docRef = await setDoc(
+                doc(db, 'users', auth.currentUser.uid),
+                {
+                  username: SignUpForm.name,
+                  email: SignUpForm.email,
+                  uid: auth.currentUser.uid,
+                  posts: [],
+                  comments: [],
+                  createdAt: new Date(),
+                }
+              );
             } catch (err) {
               console.log(err);
             }

@@ -34,31 +34,28 @@ function Navbar() {
   };
 
   return (
-    <div className="flex justify-around mb-6 pt-2">
+    <div className="flex justify-around mb-20 pt-2">
       <div className="flex">
         <Link to="/" className="font-size">
-          <h1 className="content-title">DevNews</h1>
+          <h1 className="content-title hover-effect">DevNews</h1>
         </Link>
         <ul className="flex">
           <Link to="/" className="font-size">
-            <li className="nav-margin font-size cursor-pointer">Posts</li>
+            <li className="nav-margin hover-effect">Posts</li>
           </Link>
 
-          <li
-            className="nav-margin font-size cursor-pointer"
-            onClick={redirect}
-          >
+          <li className="nav-margin hover-effect" onClick={redirect}>
             Submit
           </li>
         </ul>
       </div>
       <div>
         {userState ? (
-          <div onClick={logout} className="nav-margin font-size cursor-pointer">
+          <div onClick={logout} className="nav-margin  hover-effect">
             Log Out
           </div>
         ) : (
-          <Link to="/login" className="nav-margin font-size">
+          <Link to="/login" className="nav-margin hover-effect">
             Login
           </Link>
         )}

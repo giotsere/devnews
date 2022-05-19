@@ -4,7 +4,7 @@
 
 @layer components {
   .nav-margin {
-    @apply ml-6;
+    @apply ml-6 font-semibold;
   }
 
   .p-margin {
@@ -30,19 +30,19 @@
     @apply text-sky-500;
   }
 
-  .font-size {
-    @apply font-semibold;
-  }
-
   .form {
     @apply flex flex-col w-72 mt-20;
   }
 
   .btn {
-    @apply rounded bg-sky-600 text-white font-bold p-2;
+    @apply rounded bg-sky-600 text-white font-bold p-2 hover:bg-sky-700;
   }
 
   .input-border {
     @apply border-2 rounded border-sky-800 p-1;
+  }
+
+  .hover-effect {
+    @apply hover:underline underline-offset-4 decoration-2 cursor-pointer;
   }
 }

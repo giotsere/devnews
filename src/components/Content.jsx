@@ -6,15 +6,27 @@ function Content({ posts }) {
     <div className="flex flex-col items-center mt-20">
       {posts.map((post) => {
         return (
-          <Link
+          <div
             to={`/posts/${post.id}`}
-            className="mb-4 xl:w-7/12 w-10/12"
+            className="mb-8 xl:w-7/12 w-10/12 custom-border"
             id={post.id}
           >
             <div className="flex w-full">
-              <p className="content-title cursor-pointer">{post.title}</p>
+              <Link
+                to={`/posts/${post.id}`}
+                className="content-title hover-effect"
+              >
+                {post.title}
+              </Link>
               {post.url != '' ? (
-                <p className="secondery-colour cursor-pointer">({post.url})</p>
+                <a
+                  target="_blank"
+                  href={post.url}
+                  rel="noopener noreferrer"
+                  className="secondery-colour hover:text-gray-700 hover:underline"
+                >
+                  ({post.url})
+                </a>
               ) : (
                 ''
               )}
@@ -26,7 +38,7 @@ function Content({ posts }) {
               </p>
               <p className="p-margin user-colour">{post.username}</p>
             </div>
-          </Link>
+          </div>
         );
       })}
     </div>

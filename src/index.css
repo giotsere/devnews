@@ -15,7 +15,7 @@
     @apply mb-6;
   }
   .content-title {
-    @apply mr-2 font-bold text-sky-800;
+    @apply mr-2 font-bold text-sky-700 hover:text-sky-900;
   }
 
   .form-title {
@@ -43,6 +43,10 @@
   }
 
   .hover-effect {
-    @apply hover:underline underline-offset-4 decoration-2 cursor-pointer;
+    @apply hover:underline underline-offset-2 decoration-2 cursor-pointer;
+  }
+
+  .custom-border {
+    @apply outline border rounded outline-sky-300 border-sky-200 outline-1 outline-offset-4 p-2 hover:ring hover:ring-sky-500 hover:outline-sky-500 hover:outline-offset-2;
   }
 }

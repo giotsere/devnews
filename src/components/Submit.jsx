@@ -42,10 +42,16 @@ function Submit() {
             comments: 0,
             likes: 0,
             replies: [],
+            id: '',
           }).then(async (docRef) => {
             const usersRef = doc(db, 'users', user.uid);
             await updateDoc(usersRef, {
               posts: arrayUnion(docRef.id),
+            });
+
+            const newDocRef = doc(db, 'posts', docRef.id);
+            await updateDoc(newDocRef, {
+              id: docRef.id,
             });
           });
 

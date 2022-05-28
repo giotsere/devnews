@@ -1,37 +1,110 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
-import { auth } from '../firebase.config';
-import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '../firebase.config';
+import { onAuthStateChanged, updateEmail, updateProfile } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 
 function Settings() {
-  const [userState, setUserState] = useState(null);
+  const [userData, setUserData] = useState({
+    displayName: '',
+    email: '',
+  });
+
+  const [oldUser, setOldUser] = useState({
+    name: '',
+    email: '',
+  });
+
+  const [error, setError] = useState('');
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUserState(user);
-      } else {
-        setUserState(null);
+        setUserData({
+          displayName: user.displayName,
+          email: user.email,
+        });
+        setOldUser({
+          name: user.displayName,
+          email: user.email,
+        });
       }
     });
   }, []);
 
+  const updateUser = () => {
+    if (
+      userData.displayName == oldUser.name &&
+      userData.email == oldUser.email
+    ) {
+      setError("Can't submit empty data");
+    } else {
+      updateEmail(auth.currentUser, userData.email)
+        .then(() => {
+          try {
+            updateProfile(auth.currentUser, {
+              displayName: userData.displayName,
+            });
+          } catch (err) {
+            console.log(err);
+          }
+        })
+        .then(async () => {
+          try {
+            const docRef = await updateDoc(
+              doc(db, 'users', auth.currentUser.uid),
+              {
+                username: userData.displayName,
+                email: userData.email,
+              }
+            );
+          } catch (err) {
+            console.log(err);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setError('');
+    }
+  };
+
+  function onChange(e) {
+    setUserData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
   return (
     <div>
       <Navbar />
-      <div>
-        <h2>Settings</h2>
-        <div>
-          <div>
-            <label>Display Name</label>
-            <input type="text" name="displayname" id="displayname" />
-          </div>
-          <div>
-            <label>Email</label>
-            <input type="text" name="email" id="email" />
-          </div>
-          <button>Submit</button>
+      <div className="flex flex-col items-center mt-20">
+        <h2 className="form-title">Settings</h2>
+        <div className="form">
+          <label className="bottom-margin form-title">Display Name</label>
+          <input
+            type="text"
+            name="displayName"
+            id="displayname"
+            className="input-border mb-6"
+            placeholder={userData.displayName}
+            onChange={onChange}
+          />
+          <label className="bottom-margin form-title">Email</label>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            className="input-border mb-8"
+            placeholder={userData.email}
+            onChange={onChange}
+          />
+          <button className="btn mb-4" onClick={updateUser}>
+            Submit
+          </button>
         </div>
+        {error != '' ? <p className="text-center text-red-700">{error}</p> : ''}
       </div>
     </div>
   );

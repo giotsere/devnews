@@ -47,6 +47,6 @@
   }
 
   .custom-border {
-    @apply outline border rounded outline-sky-300 border-sky-200 outline-1 outline-offset-4 p-2 hover:ring hover:ring-sky-500 hover:outline-sky-500 hover:outline-offset-2;
+    @apply outline outline-sky-300  outline-1 outline-offset-4 p-2 hover:ring hover:ring-sky-500 hover:outline-sky-500 hover:outline-offset-2;
   }
 }

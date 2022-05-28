@@ -106,7 +106,7 @@ function Submit() {
           className="input-border  mb-4"
           onChange={onChange}
         />
-        <p className="bottom-margin form-title">or Text</p>
+        <p className="bottom-margin form-title">and / or Text</p>
         <textarea
           name="text"
           id="text"

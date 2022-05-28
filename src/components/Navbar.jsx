@@ -5,12 +5,14 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 function Navbar() {
   const [userState, setUserState] = useState(null);
+  const [userName, setUserName] = useState('');
   let navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserState(user);
+        setUserName(user.displayName);
       } else {
         setUserState(null);
       }
@@ -51,8 +53,17 @@ function Navbar() {
       </div>
       <div>
         {userState ? (
-          <div onClick={logout} className="nav-margin  hover-effect">
-            Log Out
+          <div className="flex">
+            <Link
+              to="/settings"
+              state={userState}
+              className="nav-margin hover-effect"
+            >
+              {userName}
+            </Link>
+            <p onClick={logout} className="nav-margin  hover-effect">
+              Log Out
+            </p>
           </div>
         ) : (
           <Link to="/login" className="nav-margin hover-effect">

@@ -50,9 +50,9 @@ function Thread() {
             <div className="flex w-full">
               <p className="secondery-colour">{post.likes} points</p>
               <p className="p-margin secondery-colour">
-                {post.comments} comments
+                {post.comments} comments by
               </p>
-              <p className="p-margin user-colour mb-10">by {post.username}</p>
+              <p className="p-margin user-colour mb-10">{post.username}</p>
             </div>
             <div>{post.text != '' ? <p>{post.text}</p> : ''}</div>
           </div>

@@ -47,6 +47,10 @@
   }
 
   .custom-border {
-    @apply outline outline-sky-300  outline-1 outline-offset-4 p-2 hover:ring hover:ring-sky-500 hover:outline-sky-500 hover:outline-offset-2;
+    @apply outline outline-1 outline-sky-300 p-2 hover:ring hover:ring-sky-500 hover:outline-sky-500 hover:outline-offset-2;
+  }
+
+  .textarea {
+    @apply hover:border hover:border-black focus:border focus:border-black outline outline-1 p-2 resize-none mb-4;
   }
 }

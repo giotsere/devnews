@@ -21,10 +21,8 @@ function Navbar() {
 
   const logout = async () => {
     await signOut(auth).then(() => {
-      console.log('user logged out');
+      navigate('/');
     });
-
-    navigate('/');
   };
 
   const redirect = () => {

@@ -32,40 +32,29 @@ function Settings() {
     });
   }, []);
 
-  const updateUser = () => {
+  const updateUser = async () => {
     if (
       userData.displayName == oldUser.name &&
       userData.email == oldUser.email
     ) {
       setError("Can't submit empty data");
     } else {
-      updateEmail(auth.currentUser, userData.email)
-        .then(() => {
-          try {
-            updateProfile(auth.currentUser, {
-              displayName: userData.displayName,
-            });
-          } catch (err) {
-            console.log(err);
-          }
-        })
-        .then(async () => {
-          try {
-            const docRef = await updateDoc(
-              doc(db, 'users', auth.currentUser.uid),
-              {
-                username: userData.displayName,
-                email: userData.email,
-              }
-            );
-          } catch (err) {
-            console.log(err);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
+      try {
+        const updateEmail = await updateEmail(auth.currentUser, userData.email);
+        const updateProfileUsername = await updateProfile(auth.currentUser, {
+          displayName: userData.displayName,
         });
-      setError('');
+        const updateUserUsername = await updateDoc(
+          doc(db, 'users', auth.currentUser.uid),
+          {
+            username: userData.displayName,
+            email: userData.email,
+          }
+        );
+        setError('');
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 

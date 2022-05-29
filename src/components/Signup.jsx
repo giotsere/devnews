@@ -12,6 +12,8 @@ function Signup() {
     confirmPassword: '',
   });
 
+  const navigate = useNavigate();
+
   const createAccount = async () => {
     const signUpEmail = SignUpForm.email;
     const signUpPassword = SignUpForm.password;
@@ -22,36 +24,23 @@ function Signup() {
           auth,
           signUpEmail,
           signUpPassword
-        )
-          .then(() => {
-            try {
-              updateProfile(auth.currentUser, {
-                displayName: SignUpForm.name,
-              });
-            } catch (err) {
-              console.log(err);
-            }
-          })
-          .then(async () => {
-            try {
-              const docRef = await setDoc(
-                doc(db, 'users', auth.currentUser.uid),
-                {
-                  username: SignUpForm.name,
-                  email: SignUpForm.email,
-                  uid: auth.currentUser.uid,
-                  posts: [],
-                  comments: [],
-                  createdAt: new Date(),
-                }
-              );
-            } catch (err) {
-              console.log(err);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        );
+
+        const updateUsername = await updateProfile(auth.currentUser, {
+          displayName: SignUpForm.name,
+        });
+
+        const setUserData = await setDoc(
+          doc(db, 'users', auth.currentUser.uid),
+          {
+            username: SignUpForm.name,
+            email: SignUpForm.email,
+            uid: auth.currentUser.uid,
+            posts: [],
+            comments: [],
+            createdAt: new Date(),
+          }
+        );
       } catch (err) {
         console.log(err);
       }

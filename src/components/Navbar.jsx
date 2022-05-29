@@ -4,7 +4,7 @@ import { auth } from '../firebase.config';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 function Navbar() {
-  const [userState, setUserState] = useState(null);
+  const [userState, setUserState] = useState('');
   const [userName, setUserName] = useState('');
   let navigate = useNavigate();
 

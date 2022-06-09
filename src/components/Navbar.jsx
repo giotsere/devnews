@@ -34,10 +34,10 @@ function Navbar() {
   };
 
   return (
-    <div className="flex justify-around mb-20 pt-2">
+    <div className="flex justify-around mb-20 pt-2 bg-sky-600 pb-2 text-white">
       <div className="flex">
-        <Link to="/" className="font-size">
-          <h1 className="content-title hover-effect">DevNews</h1>
+        <Link to="/" className="font-size ">
+          <h1 className="hover-effect font-bold">DevNews</h1>
         </Link>
         <ul className="flex">
           <Link to="/" className="font-size">

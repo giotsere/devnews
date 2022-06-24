@@ -105,7 +105,6 @@ function Content({ posts }) {
                 )}
               </div>
               <div className="flex w-full">
-                {/* <p className="secondery-colour">{post.likes} points</p> */}
                 <p className="secondery-colour">{post.comments} comments by</p>
                 <p className="p-margin user-colour">{post.username}</p>
               </div>

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { db } from '../firebase.config';
 import { doc, getDoc } from 'firebase/firestore';
 import Navbar from './Navbar';
-import { auth } from '../firebase.config';
+import { auth, db } from '../firebase.config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 

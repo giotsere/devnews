@@ -10,7 +10,7 @@ function Login() {
     email: '',
     password: '',
   });
-
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const login = async () => {
@@ -25,7 +25,7 @@ function Login() {
       );
       navigate('/');
     } catch (err) {
-      console.log(err);
+      setErrorMessage(err.code);
     }
   };
 
@@ -58,6 +58,11 @@ function Login() {
       <button onClick={login} className="btn">
         Log In
       </button>
+      {errorMessage ? (
+        <p className="text-center text-red-600 pt-2">{errorMessage}</p>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

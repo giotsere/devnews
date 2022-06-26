@@ -13,6 +13,8 @@ function Signup() {
     confirmPassword: '',
   });
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   let navigate = useNavigate();
 
   const createAccount = async () => {
@@ -45,7 +47,7 @@ function Signup() {
         );
         navigate('/');
       } catch (err) {
-        console.log(err);
+        setErrorMessage(err.code);
       }
     }
   };
@@ -95,6 +97,11 @@ function Signup() {
       <button onClick={createAccount} className="btn">
         Sign Up
       </button>
+      {errorMessage ? (
+        <p className="text-center text-red-600 pt-2">{errorMessage}</p>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

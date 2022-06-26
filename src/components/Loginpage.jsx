@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import Login from './Login';
 import SignUp from './SignUp';
 

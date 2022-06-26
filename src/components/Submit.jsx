@@ -8,7 +8,6 @@ import {
 } from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
 
 function Submit() {
   let navigate = useNavigate();
@@ -88,7 +87,6 @@ function Submit() {
 
   return (
     <div>
-      <Navbar />
       <div className="form m-auto mt-20">
         <p className="bottom-margin form-title"> Title</p>
         <input

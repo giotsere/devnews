@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
 import { auth, db } from '../firebase.config';
 import { onAuthStateChanged, updateEmail, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -67,7 +66,6 @@ function Settings() {
 
   return (
     <div>
-      <Navbar />
       <div className="flex flex-col items-center mt-20">
         <h2 className="form-title">Settings</h2>
         <div className="form">

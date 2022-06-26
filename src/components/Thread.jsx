@@ -8,7 +8,6 @@ import {
   arrayUnion,
 } from 'firebase/firestore';
 
-import Navbar from './Navbar';
 import { auth, db } from '../firebase.config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Link } from 'react-router-dom';
@@ -88,7 +87,6 @@ function Thread() {
 
   return (
     <div>
-      <Navbar />
       <div className="flex flex-col items-center mt-20">
         {error && <p>There was an error fetching data</p>}
         {post != '' && (

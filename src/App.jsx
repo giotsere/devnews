@@ -24,7 +24,7 @@ function App() {
     //   );
     // });
     getDocs(postsRef).then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
+      snapshot.forEach((doc) => {
         setPosts((prev) => [...prev, doc.data()]);
       });
     });

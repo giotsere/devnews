@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
+  addDoc,
+  collection,
   doc,
   getDoc,
+  getDocs,
   updateDoc,
   increment,
   arrayUnion,
+  query,
+  where,
 } from 'firebase/firestore';
 
 import { auth, db } from '../firebase.config';
@@ -17,18 +22,31 @@ function Thread() {
   const { id } = useParams();
   const [post, setPost] = useState('');
   const [error, setError] = useState(false);
+  const [comError, setComError] = useState(false);
   const [userState, setUserState] = useState({
     authenticated: false,
   });
-  const [userId, setUserId] = useState({
+  const [comment, setComment] = useState('');
+  const [userID, setUserId] = useState({
     id: '',
   });
+  const [displayName, setDisplayName] = useState('');
+  const [comments, setComments] = useState([]);
 
   const postRef = doc(db, 'posts', id);
+  const commentsQuery = query(
+    collection(db, 'comments'),
+    where('parentID', '==', id)
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       const docSnap = await getDoc(postRef);
+      getDocs(commentsQuery).then((snapshot) => {
+        snapshot.forEach((comment) => {
+          setComments((prev) => [...prev, comment.data()]);
+        });
+      });
 
       if (docSnap.exists()) {
         setPost(docSnap.data());
@@ -43,6 +61,7 @@ function Thread() {
           authenticated: true,
         });
         setUserId({ id: user.uid });
+        setDisplayName(user.displayName);
       } else {
         setUserState({
           authenticated: false,
@@ -53,8 +72,32 @@ function Thread() {
     fetchData();
   }, []);
 
-  const addComment = () => {
-    //commentid, parentid, username, likes,
+  const addComment = async () => {
+    try {
+      let date = new Date();
+      const docRef = await addDoc(collection(db, 'comments'), {
+        comment: comment,
+        username: displayName,
+        userID: userID.id,
+        parentID: post.id,
+        date: date,
+        replies: 0,
+        likes: 0,
+      });
+
+      console.log(docRef.id);
+      const newDocRef = doc(db, 'comments', docRef.id);
+      await updateDoc(newDocRef, {
+        id: docRef.id,
+      });
+
+      const postRef = doc(db, 'posts', post.id);
+      await updateDoc(postRef, {
+        comments: increment(1),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const upvotePost = async (id) => {
@@ -62,7 +105,7 @@ function Thread() {
       /*get user doc from collection
       look for doc in user.upvoted 
       */
-      const userRef = doc(db, 'users', userId.id);
+      const userRef = doc(db, 'users', userID.id);
       const docSnap = await getDoc(userRef);
       if (docSnap.exists()) {
         //if user has not voted on the post
@@ -83,6 +126,10 @@ function Thread() {
         }
       }
     }
+  };
+
+  const onChange = (e) => {
+    setComment(e.target.value);
   };
 
   return (
@@ -135,8 +182,11 @@ function Thread() {
         {userState.authenticated ? (
           <div className="mb-4 xl:w-7/12 w-10/12">
             <textarea
+              name="comment"
               className="w-full textarea"
               placeholder="Add a comment..."
+              onChange={onChange}
+              value={comment}
             ></textarea>
             <button className="btn" onClick={addComment}>
               Add Comment
@@ -155,7 +205,16 @@ function Thread() {
         )}
       </div>
       <div className="flex flex-col items-center mt-20">
-        <div className="mb-4 xl:w-7/12 w-10/12"></div>
+        <div className="mb-4 xl:w-7/12 w-10/12">
+          {comError && <p>There was an error fetching data</p>}
+          {comments.map((comm) => {
+            return (
+              <div>
+                <p>{comm.comment}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

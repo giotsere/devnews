@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { auth, db } from '../firebase.config';
 import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 //TODO: error checking
 
@@ -12,7 +13,7 @@ function Signup() {
     confirmPassword: '',
   });
 
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   const createAccount = async () => {
     const signUpEmail = SignUpForm.email;
@@ -37,10 +38,12 @@ function Signup() {
             email: SignUpForm.email,
             uid: auth.currentUser.uid,
             posts: [],
+            upvoted: [],
             comments: [],
             createdAt: new Date(),
           }
         );
+        navigate('/');
       } catch (err) {
         console.log(err);
       }

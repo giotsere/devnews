@@ -5,10 +5,10 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 function Settings() {
-  const [userData, setUserData] = useState({
+  const [newUsername, setNewUsername] = useState({
     displayName: '',
   });
-  const [oldUser, setOldUser] = useState({
+  const [oldUsername, setOldUsername] = useState({
     name: '',
   });
   const [error, setError] = useState('');
@@ -18,33 +18,28 @@ function Settings() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUserData({
+        setNewUsername({
           displayName: user.displayName,
-          email: user.email,
         });
-        setOldUser({
+        setOldUsername({
           name: user.displayName,
-          email: user.email,
         });
       }
     });
   }, []);
 
   const updateUser = async () => {
-    if (
-      userData.displayName == oldUser.name &&
-      userData.email == oldUser.email
-    ) {
+    if (newUsername.displayName == oldUsername.name) {
       setError("Can't submit empty data");
     } else {
       try {
         const updateProfileUsername = await updateProfile(auth.currentUser, {
-          displayName: userData.displayName,
+          displayName: newUsername.displayName,
         });
         const updateUserUsername = await updateDoc(
           doc(db, 'users', auth.currentUser.uid),
           {
-            username: userData.displayName,
+            username: newUsername.displayName,
           }
         );
         setError('');
@@ -56,7 +51,7 @@ function Settings() {
   };
 
   function onChange(e) {
-    setUserData((prev) => ({
+    setNewUsername((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -73,10 +68,11 @@ function Settings() {
             name="displayName"
             id="displayname"
             className="input-border mb-6"
-            placeholder={userData.displayName}
+            placeholder={newUsername.displayName}
             onChange={onChange}
           />
-
+          <a href="">Posts ()</a>
+          <a href="">Comments ()</a>
           <button className="btn mb-4" onClick={updateUser}>
             Submit
           </button>

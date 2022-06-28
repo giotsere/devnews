@@ -17,6 +17,7 @@ import { auth, db } from '../firebase.config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 import upvoteIcon from '../assets/icons/upvote-svg.svg';
+import Comment from './Comment';
 
 function Thread() {
   const { id } = useParams();
@@ -78,7 +79,7 @@ function Thread() {
       const docRef = await addDoc(collection(db, 'comments'), {
         comment: comment,
         username: displayName,
-        userID: userID.id,
+        uid: userID.id,
         parentID: post.id,
         date: date,
         replies: 0,
@@ -89,6 +90,12 @@ function Thread() {
       const newDocRef = doc(db, 'comments', docRef.id);
       await updateDoc(newDocRef, {
         id: docRef.id,
+      });
+
+      const usersRef = doc(db, 'users', userID.id);
+      await updateDoc(usersRef, {
+        comments: arrayUnion(docRef.id),
+        commentsCount: increment(1),
       });
 
       const postRef = doc(db, 'posts', post.id);
@@ -137,7 +144,10 @@ function Thread() {
       <div className="flex flex-col items-center mt-20">
         {error && <p>There was an error fetching data</p>}
         {post != '' && (
-          <div className="mb-10 xl:w-7/12 w-10/12 flex" id={post.id}>
+          <div
+            className="mb-10 pb-10 xl:w-7/12 w-10/12 flex border-b-2 border-sky-800"
+            id={post.id}
+          >
             <div className="mr-4">
               <img
                 src={upvoteIcon}
@@ -205,13 +215,16 @@ function Thread() {
         )}
       </div>
       <div className="flex flex-col items-center mt-20">
-        <div className="mb-4 xl:w-7/12 w-10/12">
+        <div className="flex flex-col xl:w-7/12 w-10/12 mt-20 border-t-2 border-sky-800 pt-10">
           {comError && <p>There was an error fetching data</p>}
           {comments.map((comm) => {
             return (
-              <div>
-                <p>{comm.comment}</p>
-              </div>
+              <Comment
+                comm={comm}
+                authenticated={userState.authenticated}
+                commentUsername={displayName}
+                userID={userID.id}
+              />
             );
           })}
         </div>

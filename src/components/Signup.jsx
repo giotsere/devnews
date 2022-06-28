@@ -40,8 +40,10 @@ function Signup() {
             email: SignUpForm.email,
             uid: auth.currentUser.uid,
             posts: [],
+            postsCount: 0,
             upvoted: [],
             comments: [],
+            commentsCount: [],
             createdAt: new Date(),
           }
         );

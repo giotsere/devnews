@@ -5,6 +5,7 @@ import {
   addDoc,
   updateDoc,
   arrayUnion,
+  increment,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +37,7 @@ function Submit() {
             url: post.url,
             text: post.text,
             username: username,
-            userId: userId,
+            uid: userId,
             date: date,
             comments: 0,
             likes: 0,
@@ -47,6 +48,7 @@ function Submit() {
           const usersRef = doc(db, 'users', user.uid);
           await updateDoc(usersRef, {
             posts: arrayUnion(docRef.id),
+            postsCount: increment(1),
           });
 
           const newDocRef = doc(db, 'posts', docRef.id);

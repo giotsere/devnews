@@ -1,7 +1,5 @@
 - Refactor the displayed content (title etc,) make it into a component
-- Upvote to comments
-- comments style
 - Nested comments
 - Account Info (posts, comments)
-- Sorting (oldest, newest, active)
+- Sorting (oldest, newest, most voted, most commented)
 - Tagging

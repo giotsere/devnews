@@ -102,6 +102,7 @@ function Thread() {
       await updateDoc(postRef, {
         comments: increment(1),
       });
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }

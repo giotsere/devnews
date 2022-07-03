@@ -14,20 +14,22 @@ function App() {
   const postsRef = collection(db, 'posts');
 
   useEffect(() => {
-    // onSnapshot(postsRef, (post) => {
-    //   setPosts(
-    //     post.docs.map((doc) => {
-    //       return {
-    //         ...doc.data(),
-    //       };
-    //     })
-    //   );
-    // });
-    getDocs(postsRef).then((snapshot) => {
-      snapshot.forEach((doc) => {
-        setPosts((prev) => [...prev, doc.data()]);
-      });
+    //GETS DATA WHEN DB CHANGES
+    onSnapshot(postsRef, (post) => {
+      setPosts(
+        post.docs.map((doc) => {
+          return {
+            ...doc.data(),
+          };
+        })
+      );
     });
+    //GETS DATA ONLY ONCE
+    // getDocs(postsRef).then((snapshot) => {
+    //   snapshot.forEach((doc) => {
+    //     setPosts((prev) => [...prev, doc.data()]);
+    //   });
+    // });
   }, []);
 
   return (

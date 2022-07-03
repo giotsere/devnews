@@ -6,19 +6,13 @@ import {
   doc,
   updateDoc,
   getDoc,
-  deleteDoc,
   arrayUnion,
   increment,
 } from 'firebase/firestore';
 import { db } from '../firebase.config';
+import { deleteContent } from '../functions/deleteContent';
 
 function Comment({ comm, authenticated, commentUsername, userID }) {
-  const deleteComment = async (e) => {
-    const commentID = e.target.parentNode.parentNode.parentNode.id;
-    await deleteDoc(doc(db, 'comments', commentID));
-    document.getElementById(commentID).textContent = '';
-  };
-
   const upvoteComment = async (id) => {
     if (authenticated) {
       /*get user doc from collection
@@ -73,7 +67,9 @@ function Comment({ comm, authenticated, commentUsername, userID }) {
               src={deleteIcon}
               alt="delete icon"
               className="ml-4 cursor-pointer w-6"
-              onClick={deleteComment}
+              onClick={(e) => {
+                deleteContent(e, 'comments', db);
+              }}
             />
           ) : (
             ''

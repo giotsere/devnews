@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import upvoteIcon from '../assets/icons/upvote-svg.svg';
+import deleteIcon from '../assets/icons/trash.svg';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase.config';
 import {
@@ -10,13 +11,14 @@ import {
   increment,
   arrayUnion,
 } from 'firebase/firestore';
+import { deleteContent } from '../functions/deleteContent';
 
 function Content({ posts }) {
   const [userState, setUserState] = useState({
     authenticated: false,
   });
 
-  const [userId, setUserId] = useState({
+  const [userID, setUserID] = useState({
     id: '',
   });
 
@@ -26,7 +28,7 @@ function Content({ posts }) {
         setUserState({
           authenticated: true,
         });
-        setUserId({ id: user.uid });
+        setUserID({ id: user.uid });
       } else {
         setUserState({
           authenticated: false,
@@ -40,7 +42,7 @@ function Content({ posts }) {
       /*get user doc from collection
       look for doc in user.upvoted 
       */
-      const userRef = doc(db, 'users', userId.id);
+      const userRef = doc(db, 'users', userID.id);
       const docSnap = await getDoc(userRef);
       if (docSnap.exists()) {
         //if user has not voted on the post
@@ -102,6 +104,16 @@ function Content({ posts }) {
                   </a>
                 ) : (
                   ''
+                )}
+                {userID.id == post.uid && (
+                  <img
+                    src={deleteIcon}
+                    alt="delete icon"
+                    className="ml-4 cursor-pointer w-6"
+                    onClick={(e) => {
+                      deleteContent(e, 'posts', db);
+                    }}
+                  />
                 )}
               </div>
               <div className="flex w-full">

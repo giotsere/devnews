@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { auth, db } from '../firebase.config';
 import { onAuthStateChanged, updateProfile } from 'firebase/auth';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 function Settings() {
@@ -12,6 +12,7 @@ function Settings() {
     name: '',
   });
   const [error, setError] = useState('');
+  const [userData, setUserData] = useState('');
 
   let navigate = useNavigate();
 
@@ -24,6 +25,14 @@ function Settings() {
         setOldUsername({
           name: user.displayName,
         });
+
+        const fetchUserData = (async () => {
+          const usersRef = await doc(db, 'users', user.uid);
+          const docSnap = await getDoc(usersRef);
+          if (docSnap.exists()) {
+            setUserData(docSnap.data());
+          }
+        })();
       }
     });
   }, []);
@@ -62,7 +71,7 @@ function Settings() {
       <div className="flex flex-col items-center mt-20">
         <h2 className="form-title">Settings</h2>
         <div className="form">
-          <label className="bottom-margin form-title">Display Name</label>
+          <label className="bottom-margin form-title">Change Username</label>
           <input
             type="text"
             name="displayName"
@@ -71,12 +80,18 @@ function Settings() {
             placeholder={newUsername.displayName}
             onChange={onChange}
           />
-          <a href="">Posts ()</a>
-          <a href="">Comments ()</a>
+
           <button className="btn mb-4" onClick={updateUser}>
             Submit
           </button>
+          <a href="" className="form-title mt-4">
+            Posts ({userData.postsCount})
+          </a>
+          <a href="" className="form-title mt-4">
+            Comments ({userData.commentsCount})
+          </a>
         </div>
+        <div></div>
         {error ? <p className="text-center text-red-700">{error}</p> : ''}
       </div>
     </div>

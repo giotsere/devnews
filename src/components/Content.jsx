@@ -111,7 +111,7 @@ function Content({ posts }) {
                     alt="delete icon"
                     className="ml-4 cursor-pointer w-6"
                     onClick={(e) => {
-                      deleteContent(e, 'posts', db);
+                      deleteContent(e, 'posts', db, userID.id);
                     }}
                   />
                 )}

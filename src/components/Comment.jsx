@@ -68,7 +68,7 @@ function Comment({ comm, authenticated, commentUsername, userID }) {
               alt="delete icon"
               className="ml-4 cursor-pointer w-6"
               onClick={(e) => {
-                deleteContent(e, 'comments', db, userID);
+                deleteContent(e, 'comments', db, userID, comm.parentID);
               }}
             />
           ) : (

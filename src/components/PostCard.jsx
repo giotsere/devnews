@@ -45,7 +45,6 @@ function PostCard({ post, authenticated, db, userID }) {
       to={`/posts/${post.id}`}
       className="mb-8 xl:w-7/12 w-10/12 p-6 flex bg-white drop-shadow rounded"
       id={post.id}
-      key={post.id}
     >
       <div className="mr-4">
         <img

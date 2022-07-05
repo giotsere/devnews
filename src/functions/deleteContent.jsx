@@ -6,10 +6,9 @@ import {
   arrayRemove,
 } from 'firebase/firestore';
 
-export async function deleteContent(e, type, db, userID) {
+export async function deleteContent(e, type, db, userID, parentID) {
   const contentID = e.target.parentNode.parentNode.parentNode.id;
   await deleteDoc(doc(db, type, contentID));
-  document.getElementById(contentID).textContent = '';
 
   const usersRef = doc(db, 'users', userID);
   if (type == 'posts') {
@@ -21,6 +20,11 @@ export async function deleteContent(e, type, db, userID) {
     await updateDoc(usersRef, {
       comments: arrayRemove(contentID),
       commentsCount: increment(-1),
+    });
+
+    const postRef = doc(db, 'posts', parentID);
+    await updateDoc(postRef, {
+      comments: increment(-1),
     });
   }
 }

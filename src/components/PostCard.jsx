@@ -75,7 +75,7 @@ function PostCard({ post, authenticated, db, userID }) {
           ) : (
             ''
           )}
-          {userID.id == post.uid && (
+          {userID == post.uid && (
             <img
               src={deleteIcon}
               alt="delete icon"

@@ -12,11 +12,11 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import PostCard from './PostCard';
 
 import { auth, db } from '../firebase.config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Link } from 'react-router-dom';
-import upvoteIcon from '../assets/icons/upvote-svg.svg';
 import Comment from './Comment';
 
 function Thread() {
@@ -145,50 +145,13 @@ function Thread() {
       <div className="flex flex-col items-center mt-20">
         {error && <p>There was an error fetching data</p>}
         {post != '' && (
-          <div
-            className="mb-10 pb-10 xl:w-7/12 w-10/12 flex border-b-2 border-sky-800"
-            id={post.id}
-          >
-            <div className="mr-4">
-              <img
-                src={upvoteIcon}
-                alt="upvote icon"
-                className="cursor-pointer w-6"
-                onClick={() => {
-                  upvotePost(post.id);
-                }}
-              />
-              <p className="pl-2">{post.likes}</p>
-            </div>
-            <div>
-              <div className="flex w-full">
-                <p className="content-title hover-effect">{post.title}</p>
-                {post.url != '' ? (
-                  <a
-                    target="_blank"
-                    href={post.url}
-                    rel="noopener noreferrer"
-                    className="secondery-colour cursor-pointer"
-                  >
-                    ({post.url})
-                  </a>
-                ) : (
-                  ''
-                )}
-              </div>
-              <div className="flex w-full">
-                <p className="secondery-colour">{post.comments} comments by</p>
-                <p className="p-margin user-colour mb-10">{post.username}</p>
-              </div>
-              {post.text != '' ? (
-                <div>
-                  <p>{post.text}</p>
-                </div>
-              ) : (
-                ''
-              )}
-            </div>
-          </div>
+          <PostCard
+            post={post}
+            authenticated={userState.authenticated}
+            db={db}
+            userID={userID.id}
+            key={post.id}
+          />
         )}
         {userState.authenticated ? (
           <div className="mb-4 xl:w-7/12 w-10/12">
@@ -216,7 +179,7 @@ function Thread() {
         )}
       </div>
       <div className="flex flex-col items-center mt-20">
-        <div className="flex flex-col xl:w-7/12 w-10/12 mt-20 border-t-2 border-sky-800 pt-10">
+        <div className="flex flex-col xl:w-7/12 w-10/12 mt-20 border-t-2 border-sky-800 pt-10  h-screen">
           {comError && <p>There was an error fetching data</p>}
           {comments.map((comm) => {
             return (

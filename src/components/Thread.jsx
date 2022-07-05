@@ -76,7 +76,7 @@ function Thread() {
     });
 
     fetchData();
-  }, []);
+  }, [post]);
 
   const addComment = async () => {
     try {
@@ -158,17 +158,23 @@ function Thread() {
       <div className="flex flex-col items-center mt-20">
         <div className="flex flex-col xl:w-7/12 w-10/12 mt-20 border-t-2 border-sky-800 pt-10  h-screen">
           {comError && <p>There was an error fetching data</p>}
-          {comments.map((comm) => {
-            return (
-              <Comment
-                comm={comm}
-                authenticated={userState.authenticated}
-                commentUsername={displayName}
-                userID={userID.id}
-                key={comm.id}
-              />
-            );
-          })}
+          {post.comments === 0 ? (
+            <p className="text-center underline text-lg">
+              This Post has no comments
+            </p>
+          ) : (
+            comments.map((comm) => {
+              return (
+                <Comment
+                  comm={comm}
+                  authenticated={userState.authenticated}
+                  commentUsername={displayName}
+                  userID={userID.id}
+                  key={comm.id}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </div>

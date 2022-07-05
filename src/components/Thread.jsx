@@ -5,12 +5,12 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
   updateDoc,
   increment,
   arrayUnion,
   query,
   where,
+  onSnapshot,
 } from 'firebase/firestore';
 import PostCard from './PostCard';
 
@@ -43,10 +43,15 @@ function Thread() {
   useEffect(() => {
     const fetchData = async () => {
       const docSnap = await getDoc(postRef);
-      getDocs(commentsQuery).then((snapshot) => {
-        snapshot.forEach((comment) => {
-          setComments((prev) => [...prev, comment.data()]);
-        });
+
+      onSnapshot(commentsQuery, (comments) => {
+        setComments(
+          comments.docs.map((comment) => {
+            return {
+              ...comment.data(),
+            };
+          })
+        );
       });
 
       if (docSnap.exists()) {
@@ -86,7 +91,6 @@ function Thread() {
         likes: 0,
       });
 
-      console.log(docRef.id);
       const newDocRef = doc(db, 'comments', docRef.id);
       await updateDoc(newDocRef, {
         id: docRef.id,
@@ -102,37 +106,10 @@ function Thread() {
       await updateDoc(postRef, {
         comments: increment(1),
       });
-      window.location.reload();
+
+      setComment('');
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const upvotePost = async (id) => {
-    if (userState.authenticated) {
-      /*get user doc from collection
-      look for doc in user.upvoted 
-      */
-      const userRef = doc(db, 'users', userID.id);
-      const docSnap = await getDoc(userRef);
-      if (docSnap.exists()) {
-        //if user has not voted on the post
-        if (!docSnap.data().upvoted.includes(id)) {
-          //update front end without fetching data
-          const selectLikedP = document
-            .getElementById(id)
-            .querySelectorAll('p');
-          const updateLikedP = selectLikedP[0].textContent++;
-
-          const postRef = doc(db, 'posts', id);
-          await updateDoc(userRef, {
-            upvoted: arrayUnion(id),
-          });
-          await updateDoc(postRef, {
-            likes: increment(1),
-          });
-        }
-      }
     }
   };
 
@@ -188,6 +165,7 @@ function Thread() {
                 authenticated={userState.authenticated}
                 commentUsername={displayName}
                 userID={userID.id}
+                key={comm.id}
               />
             );
           })}

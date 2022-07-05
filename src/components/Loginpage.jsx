@@ -4,7 +4,7 @@ import SignUp from './SignUp';
 function Loginpage() {
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center pb-12">
         <Login />
         <SignUp />
       </div>

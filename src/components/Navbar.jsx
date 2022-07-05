@@ -32,7 +32,7 @@ function Navbar() {
   };
 
   return (
-    <div className="flex justify-around mb-20 pt-2 bg-sky-600 pb-2 text-white">
+    <nav className="flex justify-around pt-2 bg-sky-600 pb-2 text-white">
       <div className="flex">
         <Link to="/" className="font-size ">
           <h1 className="hover-effect font-bold">DevNews</h1>
@@ -67,7 +67,7 @@ function Navbar() {
           </Link>
         )}
       </div>
-    </div>
+    </nav>
   );
 }
 

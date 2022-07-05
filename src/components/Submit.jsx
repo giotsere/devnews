@@ -41,7 +41,6 @@ function Submit() {
             date: date,
             comments: 0,
             likes: 0,
-            replies: [],
             id: '',
           });
 

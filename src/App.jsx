@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App bg-slate-100 h-full">
+    <div className="App">
       <Router>
         <Navbar />
         <Routes>

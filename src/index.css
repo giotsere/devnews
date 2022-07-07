@@ -7,6 +7,10 @@
     @apply ml-6 font-semibold;
   }
 
+  body {
+    @apply bg-slate-100;
+  }
+
   .p-margin {
     @apply ml-2;
   }

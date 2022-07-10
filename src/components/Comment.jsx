@@ -20,8 +20,23 @@ function Comment({
   commentUsername,
   userID,
   displayName,
+  postID,
 }) {
   const [replying, setReplying] = useState(false);
+
+  const nestedComments = (comm.children || []).map((comm) => {
+    return (
+      <Comment
+        comm={comm}
+        authenticated={authenticated}
+        commentUsername={displayName}
+        userID={userID}
+        displayName={displayName}
+        key={comm.id}
+        postID={postID}
+      />
+    );
+  });
 
   const upvoteComment = async (id) => {
     if (authenticated) {
@@ -65,9 +80,11 @@ function Comment({
           username: displayName,
           uid: userID,
           parentID: parentCommentID,
+          postID: postID,
           date: date,
           replies: 0,
           likes: 0,
+          children: null,
         });
 
         const newDocRef = doc(db, 'comments', docRef.id);
@@ -119,6 +136,7 @@ function Comment({
 
       inputDiv.appendChild(input);
       inputDiv.appendChild(inputSubmit);
+      inputDiv.classList.add('mb-6');
 
       e.target.parentNode.parentNode.insertBefore(
         inputDiv,
@@ -131,7 +149,7 @@ function Comment({
   };
 
   return (
-    <div className="mb-10" id={comm.id}>
+    <div className="mb-10 comments rounded p-4" id={comm.id}>
       <div className="xl:w-7/12 w-10/12 flex">
         <div className="mr-4">
           <img
@@ -158,7 +176,7 @@ function Comment({
               alt="delete icon"
               className="ml-4 cursor-pointer w-6"
               onClick={(e) => {
-                deleteContent(e, 'comments', db, userID, comm.parentID);
+                deleteContent(e, 'comments', db, userID, comm.parentID, postID);
               }}
             />
           ) : (
@@ -166,19 +184,20 @@ function Comment({
           )}
         </div>
       </div>
-      {authenticated && (
-        <div className="flex pl-10 pb-6">
-          <p
-            className="pr-2 cursor-pointer hover:font-bold user-colour underline underline-offset-2"
-            onClick={createReplyDiv}
-          >
-            {' '}
-            reply{' '}
-          </p>{' '}
-          <p className="pr-2">{comm.replies} replies </p>
-          <p>{comm.likes} likes</p>
-        </div>
-      )}
+
+      <div className="flex pl-10 pb-6">
+        <p
+          className="pr-2 cursor-pointer hover:font-bold user-colour underline underline-offset-2"
+          onClick={createReplyDiv}
+        >
+          {' '}
+          reply{' '}
+        </p>{' '}
+        <p className="pr-2">{comm.replies} replies </p>
+        <p>{comm.likes} likes</p>
+      </div>
+
+      {nestedComments}
     </div>
   );
 }

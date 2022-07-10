@@ -37,7 +37,7 @@ function Thread() {
   const postRef = doc(db, 'posts', id);
   const commentsQuery = query(
     collection(db, 'comments'),
-    where('parentID', '==', id)
+    where('postID', '==', id)
   );
 
   useEffect(() => {
@@ -78,6 +78,31 @@ function Thread() {
     fetchData();
   }, [post]);
 
+  function createTree(list) {
+    let map = {},
+      node,
+      roots = [],
+      i;
+
+    for (i = 0; i < list.length; i += 1) {
+      map[list[i].id] = i; // initialize the map
+      list[i].children = []; // initialize the children
+    }
+
+    for (i = 0; i < list.length; i += 1) {
+      node = list[i];
+      if (node.parentID) {
+        // if you have dangling branches check that map[node.parentId] exists
+        list[map[node.parentID]].children.push(node);
+      } else {
+        roots.push(node);
+      }
+    }
+    return roots;
+  }
+
+  const commentTree = createTree(comments);
+
   const addComment = async () => {
     try {
       let date = new Date();
@@ -85,10 +110,12 @@ function Thread() {
         comment: comment,
         username: displayName,
         uid: userID.id,
-        parentID: post.id,
+        parentID: null,
+        postID: post.id,
         date: date,
         replies: 0,
         likes: 0,
+        children: null,
       });
 
       const newDocRef = doc(db, 'comments', docRef.id);
@@ -163,16 +190,20 @@ function Thread() {
               This Post has no comments
             </p>
           ) : (
-            comments.map((comm) => {
+            commentTree.map((comm) => {
               return (
-                <Comment
-                  comm={comm}
-                  authenticated={userState.authenticated}
-                  commentUsername={displayName}
-                  userID={userID.id}
-                  displayName={displayName}
-                  key={comm.id}
-                />
+                <div key={comm.id}>
+                  {' '}
+                  <Comment
+                    comm={comm}
+                    authenticated={userState.authenticated}
+                    commentUsername={displayName}
+                    userID={userID.id}
+                    displayName={displayName}
+                    key={comm.id}
+                    postID={id}
+                  />
+                </div>
               );
             })
           )}

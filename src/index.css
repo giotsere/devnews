@@ -57,4 +57,16 @@
   .textarea {
     @apply hover:border hover:border-black focus:border focus:border-black outline outline-1 p-2 resize-none mb-4;
   }
+
+  .comments > * {
+    @apply ml-6;
+  }
+
+  .comments:nth-child(even) {
+    @apply bg-slate-100 rounded;
+  }
+
+  .comments:nth-child(odd) {
+    @apply bg-white;
+  }
 }

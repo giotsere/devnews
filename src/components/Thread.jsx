@@ -76,7 +76,7 @@ function Thread() {
     });
 
     fetchData();
-  }, [post]);
+  }, []);
 
   function createTree(list) {
     let map = {},

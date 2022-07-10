@@ -113,7 +113,7 @@ function Thread() {
     }
   };
 
-  const onChange = (e) => {
+  const handleOnChange = (e) => {
     setComment(e.target.value);
   };
 
@@ -136,7 +136,7 @@ function Thread() {
               name="comment"
               className="w-full textarea"
               placeholder="Add a comment..."
-              onChange={onChange}
+              onChange={handleOnChange}
               value={comment}
             ></textarea>
             <button className="btn" onClick={addComment}>
@@ -170,6 +170,7 @@ function Thread() {
                   authenticated={userState.authenticated}
                   commentUsername={displayName}
                   userID={userID.id}
+                  displayName={displayName}
                   key={comm.id}
                 />
               );

@@ -71,7 +71,7 @@ function Submit() {
     }
   };
 
-  const onChange = (e) => {
+  const handleOnChange = (e) => {
     setPost((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -95,7 +95,7 @@ function Submit() {
           name="title"
           id="title"
           className="input-border mb-4"
-          onChange={onChange}
+          onChange={handleOnChange}
         />
         <p className="bottom-margin form-title">URL</p>
         <input
@@ -103,7 +103,7 @@ function Submit() {
           name="url"
           id="url"
           className="input-border  mb-4"
-          onChange={onChange}
+          onChange={handleOnChange}
         />
         <p className="bottom-margin form-title">and / or Text</p>
         <textarea
@@ -112,7 +112,7 @@ function Submit() {
           cols="30"
           rows="10"
           className="input-border mb-4 resize-none"
-          onChange={onChange}
+          onChange={handleOnChange}
         ></textarea>
         <button className="btn mb-4" onClick={submitPost}>
           Submit

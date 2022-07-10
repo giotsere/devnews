@@ -184,15 +184,15 @@ function Comment({
           )}
         </div>
       </div>
-
       <div className="flex pl-10 pb-6">
-        <p
-          className="pr-2 cursor-pointer hover:font-bold user-colour underline underline-offset-2"
-          onClick={createReplyDiv}
-        >
-          {' '}
-          reply{' '}
-        </p>{' '}
+        {authenticated && (
+          <p
+            className="pr-2 cursor-pointer hover:font-bold user-colour underline underline-offset-2"
+            onClick={createReplyDiv}
+          >
+            reply
+          </p>
+        )}
         <p className="pr-2">{comm.replies} replies </p>
         <p>{comm.likes} likes</p>
       </div>

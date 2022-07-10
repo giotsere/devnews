@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 //TODO: error checking
 
-function Signup() {
+function SignUp() {
   const [SignUpForm, setSignUpForm] = useState({
     name: '',
     email: '',

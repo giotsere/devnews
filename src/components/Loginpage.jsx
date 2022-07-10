@@ -1,7 +1,7 @@
 import Login from './Login';
 import SignUp from './SignUp';
 
-function Loginpage() {
+function LoginPage() {
   return (
     <>
       <div className="flex flex-col items-center pb-12">

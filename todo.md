@@ -1,4 +1,3 @@
-- Nested comments
 - Account Info (posts, comments)
 - Sorting (oldest, newest, most voted, most commented)
 - Tagging

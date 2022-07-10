@@ -12,4 +12,4 @@ function LoginPage() {
   );
 }
 
-export default Loginpage;
+export default LoginPage;

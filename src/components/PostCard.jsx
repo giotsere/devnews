@@ -80,7 +80,7 @@ function PostCard({ post, authenticated, db, userID }) {
               alt="delete icon"
               className="ml-4 cursor-pointer w-6"
               onClick={(e) => {
-                deleteContent(e, 'posts', db, userID.id);
+                deleteContent(e, 'posts', db, userID, null);
               }}
             />
           )}

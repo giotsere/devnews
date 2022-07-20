@@ -12,7 +12,8 @@ import {
 } from 'firebase/firestore';
 
 function PostCard({ post, authenticated, db, userID }) {
-  var parser = document.createElement('a');
+  const date = post.date.toDate().toDateString();
+  const parser = document.createElement('a');
   parser.href = post.url;
 
   const upvotePost = async (id, authenticated, db, userID) => {
@@ -91,6 +92,7 @@ function PostCard({ post, authenticated, db, userID }) {
         <div className="flex w-full">
           <p className="secondery-colour">{post.comments} comments by</p>
           <p className="p-margin user-colour">{post.username}</p>
+          <p className="p-margin">on {date} </p>
         </div>
       </div>
     </div>

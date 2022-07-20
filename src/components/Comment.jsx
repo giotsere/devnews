@@ -149,7 +149,7 @@ function Comment({
   };
 
   return (
-    <div className="mb-10 comments rounded p-4" id={comm.id}>
+    <div className="mb-6 comments rounded p-4" id={comm.id}>
       <div className="xl:w-7/12 w-10/12 flex">
         <div className="mr-4">
           <img

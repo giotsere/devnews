@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { db } from './firebase.config';
 import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '../firebase.config';
 
 import PostCard from './PostCard';
 
-function Content({ posts }) {
+function Content() {
   const [posts, setPosts] = useState([]);
   const postsRef = collection(db, 'posts');
 
@@ -19,24 +18,22 @@ function Content({ posts }) {
   });
 
   useEffect(() => {
-    useEffect(() => {
-      //GETS DATA WHEN DB CHANGES
-      onSnapshot(postsRef, (post) => {
-        setPosts(
-          post.docs.map((doc) => {
-            return {
-              ...doc.data(),
-            };
-          })
-        );
-      });
-      //GETS DATA ONLY ONCE
-      // getDocs(postsRef).then((snapshot) => {
-      //   snapshot.forEach((doc) => {
-      //     setPosts((prev) => [...prev, doc.data()]);
-      //   });
-      // });
-    }, []);
+    //GETS DATA WHEN DB CHANGES
+    onSnapshot(postsRef, (post) => {
+      setPosts(
+        post.docs.map((doc) => {
+          return {
+            ...doc.data(),
+          };
+        })
+      );
+    });
+    //GETS DATA ONLY ONCE
+    // getDocs(postsRef).then((snapshot) => {
+    //   snapshot.forEach((doc) => {
+    //     setPosts((prev) => [...prev, doc.data()]);
+    //   });
+    // });
 
     onAuthStateChanged(auth, (user) => {
       if (user) {

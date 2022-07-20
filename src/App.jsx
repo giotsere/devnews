@@ -11,7 +11,7 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Content posts={posts} />} />
+          <Route path="/" element={<Content />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/submit" element={<Submit />} />
           <Route path="/posts/:id" element={<Thread />} />

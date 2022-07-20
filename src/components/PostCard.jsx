@@ -12,6 +12,9 @@ import {
 } from 'firebase/firestore';
 
 function PostCard({ post, authenticated, db, userID }) {
+  var parser = document.createElement('a');
+  parser.href = post.url;
+
   const upvotePost = async (id, authenticated, db, userID) => {
     if (authenticated) {
       /*get user doc from collection
@@ -69,7 +72,7 @@ function PostCard({ post, authenticated, db, userID }) {
               rel="noopener noreferrer"
               className="secondery-colour hover:text-gray-700 hover:underline"
             >
-              ({post.url})
+              ({parser.hostname})
             </a>
           ) : (
             ''

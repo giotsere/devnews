@@ -43,7 +43,7 @@ function SignUp() {
             postsCount: 0,
             upvoted: [],
             comments: [],
-            commentsCount: [],
+            commentsCount: 0,
             createdAt: new Date(),
           }
         );

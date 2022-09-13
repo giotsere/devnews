@@ -50,11 +50,7 @@ function Navbar() {
       <div>
         {userState ? (
           <div className="flex">
-            <Link
-              to="/settings"
-              state={userState}
-              className="nav-margin hover-effect"
-            >
+            <Link to="/settings" className="nav-margin hover-effect">
               {userState.displayName}
             </Link>
             <p onClick={logout} className="nav-margin  hover-effect">
